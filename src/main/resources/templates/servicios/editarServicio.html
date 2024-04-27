@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+        <title>Editar Servicio</title>
+    </head>
+    <body>
+        <main>
+            <div class="container px-4 py-5">
+                <h1 class="pb-2 mb-3 border-bottom">Editar Servicio</h1>
+                <form method="post" th:action="@{/editarServicioPost}" class="mt-2">
+                    <input th:value="${servicio.getId()}" name="idServicio" type="hidden"/>
+                    <div class="mb-3">
+
+                        <div class="mb-3">
+                            <label class="form-label">Responsable</label>
+                            <select class="form-select" name="idResponsable">
+                                <option th:each="responsable: ${listaResponsable}"
+                                        th:text="${responsable.getNombre()}" th:value="${responsable.getId()}">Open this select menu</option>
+                            </select>
+                        </div>
+
+                        <input th:value="${opcion.getId()}" name="idOpcion" type="hidden"/>
+                        <br/>
+                        <div class="input-label-box">
+                            <label style="font-weight: bold; color:dimgray">Precio:</label><br/>
+                            <input th:value="${opcion.getPrecio()}" name="precioNuevo" class="input-form" type="text" placeholder="Ingrese su código" required>
+                        </div>
+
+
+
+                    </div>
+
+                    <a th:href="@{/listaServicios}" class="btn btn-danger">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+        </main>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>
