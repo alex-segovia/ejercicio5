@@ -1,14 +1,8 @@
 package com.example.ejercicioclase5.Controller;
 
 import com.example.ejercicioclase5.Dto.ServicioResponsableOpcionDto;
-import com.example.ejercicioclase5.Entity.Mascota;
-import com.example.ejercicioclase5.Entity.Opcion;
-import com.example.ejercicioclase5.Entity.Responsable;
-import com.example.ejercicioclase5.Entity.Servicio;
-import com.example.ejercicioclase5.Repository.MascotaRepository;
-import com.example.ejercicioclase5.Repository.OpcionRepository;
-import com.example.ejercicioclase5.Repository.ResponsableRepository;
-import com.example.ejercicioclase5.Repository.ServicioRepository;
+import com.example.ejercicioclase5.Entity.*;
+import com.example.ejercicioclase5.Repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +17,18 @@ public class ServicioController {
     final MascotaRepository mascotaRepository;
     final ServicioRepository servicioRepository;
     final OpcionRepository opcionRepository;
-    final ResponsableRepository responsableRepository;
 
-    public ServicioController(ServicioRepository servicioRepository,MascotaRepository mascotaRepository, OpcionRepository opcionRepository, ResponsableRepository responsableRepository
+    final ResponsableRepository responsableRepository;
+    private final CuentaRepository cuentaRepository;
+
+    public ServicioController(ServicioRepository servicioRepository,MascotaRepository mascotaRepository, OpcionRepository opcionRepository, ResponsableRepository responsableRepository, CuentaRepository cuentaRepository
     ){
         this.servicioRepository = servicioRepository;
         this.mascotaRepository = mascotaRepository;
         this.opcionRepository = opcionRepository;
         this.responsableRepository = responsableRepository;
+        this.cuentaRepository = cuentaRepository;
+
     }
 
     @GetMapping(value = "/servicios")
@@ -45,6 +43,28 @@ public class ServicioController {
         }
     }
 
+    @GetMapping("/nuevoServicio")
+    public String verNuevoServicio(Model model){
+        List<Responsable> listaResponsable = responsableRepository.findAll();
+        List<Mascota> listaMascota = mascotaRepository.findAll();
+        List<Cuenta> listaCuentas = cuentaRepository.findAll();
+        model.addAttribute("listaMascota",listaMascota);
+        model.addAttribute("listaCuentas",listaCuentas);
+        model.addAttribute("listaResponsable",listaResponsable);
+
+        return "/servicios/nuevoServicio";
+    }
+    @PostMapping("/nuevoServicioPost")
+    public String guardarNuevoTransportista(@RequestParam(value = "idMascota") Integer mascota_idmascota,
+                                            @RequestParam(value = "idCuenta")Integer cuenta_idcuenta,
+                                            @RequestParam(value = "duracion")Integer duracion,
+                                            @RequestParam(value = "entrega")String entrega,
+                                            @RequestParam(value = "responsable") Integer responsable_idresponsable
+    ){
+
+        servicioRepository.nuevoServicio(mascota_idmascota, cuenta_idcuenta, duracion, entrega, responsable_idresponsable);
+        return "redirect:/servicios";
+    }
     @GetMapping("/listaServicios")
     public String listaServicios(Model model){
 

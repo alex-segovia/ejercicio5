@@ -36,6 +36,13 @@ public interface ServicioRepository extends JpaRepository<Servicio,Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "update servicio set responsable_idresponsable = ?2 where idservicio = ?1")
     void actualizarServicio(int idServicio, int idResponsable);
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO servicio (mascota_idmascota, cuenta_idcuenta, hora_inicio, duracion, entrega, responsable_idresponsable) VALUES (?1, ?2, now(), ?3, ?4, ?5);",
+            nativeQuery = true)
+    void nuevoServicio(Integer idMascota, Integer idCuenta, Integer minutosDuracion, String tipoEntrega, Integer idResponsable);
+
+
 
 
 
