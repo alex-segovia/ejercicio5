@@ -14,7 +14,7 @@ import java.util.List;
 public class ResponsablesController {
     final ResponsableRepository responsableRepository;
     public ResponsablesController(ResponsableRepository responsableRepository){
-         this.responsableRepository = responsableRepository ;
+        this.responsableRepository = responsableRepository ;
     }
     @GetMapping("/listaResponsables")
     public String listarResponsables(Model model){
@@ -33,5 +33,5 @@ public class ResponsablesController {
         responsableRepository.save(res);
         return "redirect:/listaResponsables";
     }
-
+    //Hola
 }
